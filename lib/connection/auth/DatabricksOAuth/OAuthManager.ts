@@ -20,6 +20,7 @@ export interface OAuthManagerOptions {
   azureTenantId?: string;
   clientSecret?: string;
   useDatabricksOAuthInAzure?: boolean;
+  scopes?: OAuthScopes;
   context: IClientContext;
 }
 
@@ -262,8 +263,8 @@ export class DatabricksOAuthManager extends OAuthManager {
 
   protected getScopes(requestedScopes: OAuthScopes): OAuthScopes {
     if (this.options.flow === OAuthFlow.M2M) {
-      // this is the only allowed scope for M2M flow
-      return [OAuthScope.allAPIs];
+      // M2M defaults to `all-apis` (parity with the kernel backend); a caller can narrow it via `oauthScopes`
+      return this.options.scopes ?? [OAuthScope.allAPIs];
     }
     return requestedScopes;
   }

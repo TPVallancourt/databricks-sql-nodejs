@@ -391,6 +391,22 @@ class OpenIDClientStub implements BaseClient {
         expect(token.refreshToken).to.be.undefined;
       });
 
+      it('should request configured scopes', async () => {
+        const { oauthManager, oauthClient } = prepareTestInstances({
+          flow: OAuthFlow.M2M,
+          clientId: 'test_client_id',
+          clientSecret: 'test_client_secret',
+          scopes: [OAuthScope.SQL],
+        });
+        // Azure Entra-direct M2M always uses its fixed `.default` scope
+        oauthClient.expectedScope =
+          OAuthManagerClass === DatabricksOAuthManager ? OAuthScope.SQL : getExpectedScope([]);
+
+        const token = await oauthManager.getToken([]);
+        expect(oauthClient.grant.called).to.be.true;
+        expect(token.scopes).to.deep.equal([oauthClient.expectedScope]);
+      });
+
       it('should throw an error if cannot get access token', async () => {
         const { oauthManager, oauthClient } = prepareTestInstances({
           flow: OAuthFlow.M2M,

@@ -297,6 +297,7 @@ export default class DBSQLClient extends EventEmitter implements IDBSQLClient, I
           clientId: options.oauthClientId,
           clientSecret: options.oauthClientSecret,
           useDatabricksOAuthInAzure: options.useDatabricksOAuthInAzure,
+          scopes: options.oauthScopes?.length ? options.oauthScopes : undefined,
           context: this,
         });
       case 'custom':
