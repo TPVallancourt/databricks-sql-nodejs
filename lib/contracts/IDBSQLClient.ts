@@ -22,9 +22,9 @@ type AuthOptions =
       oauthClientId?: string;
       oauthClientSecret?: string;
       useDatabricksOAuthInAzure?: boolean;
-      // OAuth scopes to request. When omitted, the kernel backend defaults the
-      // U2M flow to `['sql', 'offline_access']` (parity with the Thrift driver's
-      // `defaultOAuthScopes`), overriding the kernel's bare `all-apis offline_access`.
+      // OAuth scopes to request. When omitted, U2M defaults to `['sql', 'offline_access']`
+      // and M2M to `['all-apis']` on both backends. Azure Entra-direct M2M ignores it and
+      // uses its fixed `<resource>/.default` scope.
       oauthScopes?: Array<string>;
       // Enable the kernel's built-in on-disk OAuth token cache for U2M flows only.
       // When `true`, the kernel persists the U2M refresh token (AES-256 encrypted) to

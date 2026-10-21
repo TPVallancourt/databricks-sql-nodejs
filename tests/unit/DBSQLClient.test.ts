@@ -632,6 +632,24 @@ describe('DBSQLClient.createAuthProvider', () => {
     expect(provider['getManager']()).to.be.instanceOf(DatabricksOAuthManager);
   });
 
+  it('should pass oauthScopes to Databricks OAuth', () => {
+    const client = new DBSQLClient();
+
+    const provider = client['createAuthProvider']({
+      ...connectOptions,
+      authType: 'databricks-oauth',
+      host: 'example.dev.databricks.com',
+      oauthClientSecret: 'test-secret',
+      oauthScopes: ['sql'],
+    });
+
+    expect(provider).to.be.instanceOf(DatabricksOAuth);
+    if (!(provider instanceof DatabricksOAuth)) {
+      throw new Error('Assertion error: expected provider to be DatabricksOAuth');
+    }
+    expect(provider['options'].scopes).to.deep.equal(['sql']);
+  });
+
   it('should use Databricks OAuth method (Azure)', () => {
     const client = new DBSQLClient();
 

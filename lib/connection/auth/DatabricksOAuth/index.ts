@@ -2,13 +2,12 @@ import { HeadersInit } from 'node-fetch';
 import IAuthentication from '../../contracts/IAuthentication';
 import OAuthPersistence, { OAuthPersistenceCache } from './OAuthPersistence';
 import OAuthManager, { OAuthManagerOptions, OAuthFlow } from './OAuthManager';
-import { OAuthScopes, defaultOAuthScopes } from './OAuthScope';
+import { defaultOAuthScopes } from './OAuthScope';
 import IClientContext from '../../../contracts/IClientContext';
 
 export { OAuthFlow };
 
 export interface DatabricksOAuthOptions extends OAuthManagerOptions {
-  scopes?: OAuthScopes;
   persistence?: OAuthPersistence;
   headers?: HeadersInit;
 }
